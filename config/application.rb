@@ -36,7 +36,6 @@ module App
 
     config.generators do |generator|
       generator.framework :rspec,
-                          fixture: false,
                           view_specs: false,
                           helper_specs: false,
                           routing_specs: false
