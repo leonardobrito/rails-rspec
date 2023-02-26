@@ -17,6 +17,14 @@ RSpec.feature 'Customers', type: :feature, js: true do
 
       expect(page).to have_content('Yes!')
     end
+
+    it 'ajax requests and find' do
+      visit(customers_path)
+
+      click_link('Add message')
+
+      expect(find('#my-div').find('h1')).to have_content('Yes!')
+    end
   end
 
   context '#create' do
