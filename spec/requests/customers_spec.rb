@@ -169,7 +169,21 @@ RSpec.describe '/customers', type: :request do
         customer = Customer.create! valid_attributes
         patch customer_url(customer), params: { customer: new_attributes }
         customer.reload
-        skip('Add assertions for updated state')
+
+        expect(customer.name).to eq(new_attributes.fetch(:name))
+        expect(customer.email).to eq(new_attributes.fetch(:email))
+      end
+
+      it 'updates the requested customer json' do
+        customer = Customer.create! valid_attributes
+        patch customer_url(customer), params: { customer: new_attributes, format: :json }
+        customer.reload
+
+        expect(response.body).to include_json(
+          id: /\d/,
+          name: new_attributes.fetch(:name),
+          email: new_attributes.fetch(:email)
+        )
       end
 
       it 'redirects to the customer' do
