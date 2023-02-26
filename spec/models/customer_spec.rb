@@ -6,7 +6,7 @@ RSpec.describe Customer, type: :model do
   # fixtures :all
   # fixtures :customers
 
-  it 'creates a customer' do
+  it '#full_name' do
     # subject.name = 'Leonardo'
     # subject.email = 'f.leobrito@gmail.com'
     # customer = customers(:leonardo)
@@ -15,7 +15,10 @@ RSpec.describe Customer, type: :model do
     # customer = build(:customer)
     customer = create(:customer)
 
-    expect(customer.full_name).to eq('Sr. Leonardo Brito')
+    expect(customer.full_name).to start_with('Sr. ')
+    expect(customer.full_name).to eq("Sr. #{customer.name}")
     # expect(other_customer.full_name).to eq('Sr. John Doe')
   end
+
+  it { expect { create(:customer) }.to change { Customer.all.size }.by(1) }
 end
