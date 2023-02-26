@@ -58,6 +58,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'httparty'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.0.0'
   gem 'shoulda-matchers'
   gem 'vcr'
