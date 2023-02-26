@@ -45,13 +45,13 @@ RSpec.describe Customer, type: :model do
     expect(customer.email).to eq(attrs[:email])
   end
 
-  # it 'transient attribute' do
-  #   customer = create(:customer, upcased: true)
-  #   customer_not_upcased = create(:customer, upcased: false)
+  it 'transient attribute' do
+    customer = create(:customer, upcased: true)
+    customer_not_upcased = create(:customer, upcased: false)
 
-  #   expect(customer.name.upcase).to eq(customer.name)
-  #   expect(customer_not_upcased.name.upcase).not_to eq(customer_not_upcased.name)
-  # end
+    expect(customer.name.upcase).to eq(customer.name)
+    expect(customer_not_upcased.name.upcase).not_to eq(customer_not_upcased.name)
+  end
 
   it 'customer male' do
     # customer = create(:customer_vip, :male)
@@ -59,6 +59,18 @@ RSpec.describe Customer, type: :model do
 
     expect(customer.gender).to eq('Male')
     expect(customer.vip).to be_truthy
+  end
+
+  it 'has_many orders' do
+    customer = create(:customer, :with_orders)
+
+    expect(customer.orders.size).to eq(3)
+  end
+
+  it 'has_many exactly orders' do
+    customer = create(:customer, :with_orders, quantity_orders: 2)
+
+    expect(customer.orders.size).to eq(2)
   end
 
   it { expect { create(:customer) }.to change { Customer.all.size }.by(1) }

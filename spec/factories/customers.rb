@@ -2,9 +2,10 @@
 
 FactoryBot.define do
   factory :customer, aliases: [:user] do
-    # transient do
-    #   upcased { false }
-    # end
+    transient do
+      upcased { false }
+      quantity_orders { 3 }
+    end
 
     name { Faker::Name.name }
     email { Faker::Internet.email }
@@ -49,6 +50,13 @@ FactoryBot.define do
       days_to_pay { 15 }
     end
 
+    trait :with_orders do
+      after(:create) do |customer, evaluator|
+        create_list(:order, evaluator.quantity_orders, customer:)
+      end
+    end
+
+    factory :customer_with_orders, traits: [:with_orders]
     factory :customer_male, traits: [:male]
     factory :customer_vip, traits: [:vip]
     factory :customer_default, traits: [:default]
@@ -59,7 +67,9 @@ FactoryBot.define do
     factory :customer_female_default, traits: %i[female default]
   end
 
-  # after(:create) do |customer, evaluator|
-  #   customer.name.upcase! if evaluator.upcased
-  # end
+  after(:create) do |customer, evaluator|
+    # need respond_to? because of transient with association doesn't work well
+    # works fine inside of trait 🤔
+    customer.name.upcase! if evaluator.respond_to?(:upcased) && evaluator.upcased
+  end
 end
