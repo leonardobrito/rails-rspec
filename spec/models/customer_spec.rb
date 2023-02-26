@@ -45,13 +45,13 @@ RSpec.describe Customer, type: :model do
     expect(customer.email).to eq(attrs[:email])
   end
 
-  it 'transient attribute' do
-    customer = create(:customer, upcased: true)
-    customer_not_upcased = create(:customer, upcased: false)
+  # it 'transient attribute' do
+  #   customer = create(:customer, upcased: true)
+  #   customer_not_upcased = create(:customer, upcased: false)
 
-    expect(customer.name.upcase).to eq(customer.name)
-    expect(customer_not_upcased.name.upcase).not_to eq(customer_not_upcased.name)
-  end
+  #   expect(customer.name.upcase).to eq(customer.name)
+  #   expect(customer_not_upcased.name.upcase).not_to eq(customer_not_upcased.name)
+  # end
 
   it 'customer male' do
     # customer = create(:customer_vip, :male)

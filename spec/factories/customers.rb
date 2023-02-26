@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :customer, aliases: [:user] do
-    transient do
-      upcased { false }
-    end
+    # transient do
+    #   upcased { false }
+    # end
 
     name { Faker::Name.name }
     email { Faker::Internet.email }
@@ -59,7 +59,7 @@ FactoryBot.define do
     factory :customer_female_default, traits: %i[female default]
   end
 
-  after(:create) do |customer, evaluator|
-    customer.name.upcase! if evaluator.upcased
-  end
+  # after(:create) do |customer, evaluator|
+  #   customer.name.upcase! if evaluator.upcased
+  # end
 end
