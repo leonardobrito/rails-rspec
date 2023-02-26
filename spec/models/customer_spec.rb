@@ -20,5 +20,12 @@ RSpec.describe Customer, type: :model do
     # expect(other_customer.full_name).to eq('Sr. John Doe')
   end
 
+  it '#full_name with Sr. Leonardo' do
+    # override attributes
+    customer = create(:user, name: 'Leonardo')
+
+    expect(customer.full_name).to eq('Sr. Leonardo')
+  end
+
   it { expect { create(:customer) }.to change { Customer.all.size }.by(1) }
 end
