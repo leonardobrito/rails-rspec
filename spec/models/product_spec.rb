@@ -41,8 +41,7 @@ RSpec.describe Product, type: :model do
     it { is_expected.to belong_to(:category) }
   end
 
-
-  context "instance methods" do
+  context 'instance methods' do
     it '#full_description, return a product with a full description' do
       product = create(:product)
       expect(product.full_description).to eq("#{product.description} - #{product.price}")
