@@ -8,7 +8,8 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # capybara
-require 'capybara/rspec'
+require 'capybara/rails'
+
 # Factory bot
 require 'support/factory_bot'
 # Time helpers
