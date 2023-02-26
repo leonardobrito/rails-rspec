@@ -9,7 +9,10 @@ require 'rspec/rails'
 
 # Factory bot
 require 'support/factory_bot'
+# Time helpers
 require 'support/time_helpers'
+# Shoulda Matchers
+require 'support/shoulda_matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

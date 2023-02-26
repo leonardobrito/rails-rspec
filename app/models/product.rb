@@ -7,6 +7,6 @@ class Product < ApplicationRecord
   validates :description, :price, :category, presence: true
 
   def full_description
-    "#{self.description} - #{self.price}"
+    "#{description} - #{price}"
   end
 end
