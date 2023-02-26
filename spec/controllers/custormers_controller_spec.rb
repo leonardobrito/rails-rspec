@@ -26,30 +26,46 @@ RSpec.describe CustomersController, type: :controller do
   end
 
   context '#show' do
+    before do
+      @costumer = create(:customer)
+    end
+
     it 'responds a 302 status when not authenticated' do
-      costumer = create(:customer)
-      get :show, params: { id: costumer.id }
+      get :show, params: { id: @costumer.id }
       expect(response).to have_http_status(302)
     end
 
-    it 'responds a 200 status when authenticated' do
-      # Auth
+    describe 'when authenticated' do
+      before do
+        # Auth
+        member = create(:member)
+        sign_in member
+      end
+
+      it 'responds a 200 status' do
+        get :show, params: { id: @costumer.id }
+        expect(response).to have_http_status(200)
+      end
+
+      it 'render template' do
+        get :show, params: { id: @costumer.id }
+        expect(response).to render_template(:show)
+      end
+    end
+  end
+
+  context '#create' do
+    before do
       member = create(:member)
       sign_in member
 
-      costumer = create(:customer)
-      get :show, params: { id: costumer.id }
-      expect(response).to have_http_status(200)
+      @customer_attrs = attributes_for(:customer)
     end
 
-    it 'render template when authenticated' do
-      # Auth
-      member = create(:member)
-      sign_in member
-
-      costumer = create(:customer)
-      get :show, params: { id: costumer.id }
-      expect(response).to render_template(:show)
+    it 'responds a 201 status' do
+      expect do
+        post :create, params: { customer: @customer_attrs }
+      end.to change(Customer, :count).by(1)
     end
   end
 end
