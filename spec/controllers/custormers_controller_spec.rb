@@ -73,6 +73,13 @@ RSpec.describe CustomersController, type: :controller do
       end.to change(Customer, :count).by(1)
     end
 
+    it 'with invalid attributes' do
+      customer_attrs = build(:customer, address: nil)
+      params = { customer: customer_attrs }
+
+      expect { post(:create, params:) }.to raise_error ActionController::ParameterMissing
+    end
+
     it 'with flash notice successfully' do
       post :create, params: { customer: @customer_attrs }
       expect(flash[:notice]).to match(/successfully created/)
@@ -82,5 +89,9 @@ RSpec.describe CustomersController, type: :controller do
       post :create, format: :json, params: { customer: @customer_attrs }
       expect(response.content_type).to include('application/json')
     end
+  end
+
+  context 'shoulda matchers' do
+    it { should route(:get, '/customers').to(action: :index) }
   end
 end
