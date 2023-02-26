@@ -62,10 +62,15 @@ RSpec.describe CustomersController, type: :controller do
       @customer_attrs = attributes_for(:customer)
     end
 
-    it 'responds a 201 status' do
+    it 'with valid attributes' do
       expect do
         post :create, params: { customer: @customer_attrs }
       end.to change(Customer, :count).by(1)
+    end
+
+    it 'flash notice successfully' do
+      post :create, params: { customer: @customer_attrs }
+      expect(flash[:notice]).to match(/successfully created/)
     end
   end
 end
