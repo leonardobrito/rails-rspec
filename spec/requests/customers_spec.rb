@@ -61,7 +61,7 @@ RSpec.describe '/customers', type: :request do
       expect(response).to be_successful
     end
 
-    it 'renders a successful json response' do
+    it 'renders a successful response json' do
       customer = Customer.create! valid_attributes
       get customer_url(customer, params: { format: :json })
       expect(response.body).to include_json(
@@ -69,9 +69,25 @@ RSpec.describe '/customers', type: :request do
         name: (be_kind_of String),
         email: (be_kind_of String)
       )
+
+      expect(response.body).to include_json(
+        id: /\d/,
+        name: valid_attributes.fetch(:name),
+        email: valid_attributes.fetch(:email)
+      )
     end
 
-    it 'renders a successful json response with regex id' do
+    it 'renders a successful response json without rspec-json_expetations' do
+      customer = Customer.create! valid_attributes
+      get customer_url(customer, params: { format: :json })
+
+      response_json = JSON.parse(response.body)
+
+      expect(response_json.fetch('name')).to eq(valid_attributes.fetch(:name))
+      expect(response_json.fetch('email')).to eq(valid_attributes.fetch(:email))
+    end
+
+    it 'renders a successful response json with regex id' do
       customer = Customer.create! valid_attributes
       get customer_url(customer, params: { format: :json })
       expect(response.body).to include_json(
