@@ -7,3 +7,4 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.javascript_driver = :chrome
+Capybara.default_max_wait_time = 5.seconds
