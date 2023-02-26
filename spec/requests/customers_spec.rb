@@ -215,6 +215,13 @@ RSpec.describe '/customers', type: :request do
       end.to change(Customer, :count).by(-1)
     end
 
+    it 'destroys the requested customer json' do
+      customer = Customer.create! valid_attributes
+      expect do
+        delete customer_url(customer, params: { format: :json})
+      end.to change(Customer, :count).by(-1)
+    end
+
     it 'redirects to the customers list' do
       customer = Customer.create! valid_attributes
       delete customer_url(customer)
