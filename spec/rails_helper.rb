@@ -17,6 +17,8 @@ require 'support/time_helpers'
 require 'support/shoulda_matchers'
 # Devise
 require 'support/devise'
+# chromedriver
+require 'webdrivers/chromedriver'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
