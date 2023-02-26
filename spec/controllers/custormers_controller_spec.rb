@@ -51,6 +51,11 @@ RSpec.describe CustomersController, type: :controller do
         get :show, params: { id: @costumer.id }
         expect(response).to render_template(:show)
       end
+
+      it 'with content-type json' do
+        get :show, format: :json, params: { id: @costumer.id }
+        expect(response.content_type).to include('application/json')
+      end
     end
   end
 
@@ -68,9 +73,14 @@ RSpec.describe CustomersController, type: :controller do
       end.to change(Customer, :count).by(1)
     end
 
-    it 'flash notice successfully' do
+    it 'with flash notice successfully' do
       post :create, params: { customer: @customer_attrs }
       expect(flash[:notice]).to match(/successfully created/)
+    end
+
+    it 'with content-type json' do
+      post :create, format: :json, params: { customer: @customer_attrs }
+      expect(response.content_type).to include('application/json')
     end
   end
 end
