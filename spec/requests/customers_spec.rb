@@ -94,99 +94,117 @@ RSpec.describe '/customers', type: :request do
   end
 
   describe 'GET /edit' do
-    # before do
-    #   login
-    # end
+    before do
+      login
+    end
 
-    # it 'renders a successful response' do
-    #   customer = Customer.create! valid_attributes
-    #   get edit_customer_url(customer)
-    #   expect(response).to be_successful
-    # end
+    it 'renders a successful response' do
+      customer = Customer.create! valid_attributes
+      get edit_customer_url(customer)
+      expect(response).to be_successful
+    end
   end
 
   describe 'POST /create' do
-    # before do
-    #   login
-    # end
+    before do
+      login
+    end
 
-    # context 'with valid parameters' do
-    #   it 'creates a new Customer' do
-    #     expect do
-    #       post customers_url, params: { customer: valid_attributes }
-    #     end.to change(Customer, :count).by(1)
-    #   end
+    context 'with valid parameters' do
+      it 'creates a new Customer' do
+        expect do
+          post customers_url, params: { customer: valid_attributes }
+        end.to change(Customer, :count).by(1)
+      end
 
-    #   it 'redirects to the created customer' do
-    #     post customers_url, params: { customer: valid_attributes }
-    #     expect(response).to redirect_to(customer_url(Customer.last))
-    #   end
-    # end
+      it 'creates a new Customer with json request' do
+        expect do
+          post customers_url, params: { customer: valid_attributes, format: :json }
+        end.to change(Customer, :count).by(1)
 
-    # context 'with invalid parameters' do
-    #   it 'does not create a new Customer' do
-    #     expect do
-    #       post customers_url, params: { customer: invalid_attributes }
-    #     end.to change(Customer, :count).by(0)
-    #   end
+        expect(response.body).to include_json(
+          id: /\d/,
+          name: valid_attributes[:name],
+          email: valid_attributes[:email]
+        )
 
-    #   it "renders a response with 422 status (i.e. to display the 'new' template)" do
-    #     post customers_url, params: { customer: invalid_attributes }
-    #     expect(response).to have_http_status(:unprocessable_entity)
-    #   end
-    # end
+        expect(response.body).to include_json(
+          id: /\d/,
+          name: valid_attributes.fetch(:name),
+          email: valid_attributes.fetch(:email)
+        )
+      end
+
+      it 'redirects to the created customer' do
+        post customers_url, params: { customer: valid_attributes }
+        expect(response).to redirect_to(customer_url(Customer.last))
+      end
+    end
+
+    context 'with invalid parameters' do
+      it 'does not create a new Customer' do
+        expect do
+          post customers_url, params: { customer: invalid_attributes }
+        end.to change(Customer, :count).by(0)
+      end
+
+      it "renders a response with 422 status (i.e. to display the 'new' template)" do
+        post customers_url, params: { customer: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 
   describe 'PATCH /update' do
-    # before do
-    #   login
-    # end
+    before do
+      login
+    end
 
-    # context 'with valid parameters' do
-    #   let(:new_attributes) do
-    #     skip('Add a hash of attributes valid for your model')
-    #   end
+    context 'with valid parameters' do
+      let(:new_attributes) do
+        attributes_for(:customer)
+      end
 
-    #   it 'updates the requested customer' do
-    #     customer = Customer.create! valid_attributes
-    #     patch customer_url(customer), params: { customer: new_attributes }
-    #     customer.reload
-    #     skip('Add assertions for updated state')
-    #   end
+      it 'updates the requested customer' do
+        customer = Customer.create! valid_attributes
+        patch customer_url(customer), params: { customer: new_attributes }
+        customer.reload
+        skip('Add assertions for updated state')
+      end
 
-    #   it 'redirects to the customer' do
-    #     customer = Customer.create! valid_attributes
-    #     patch customer_url(customer), params: { customer: new_attributes }
-    #     customer.reload
-    #     expect(response).to redirect_to(customer_url(customer))
-    #   end
-    # end
+      it 'redirects to the customer' do
+        customer = Customer.create! valid_attributes
+        patch customer_url(customer), params: { customer: new_attributes }
+        customer.reload
+        expect(response).to redirect_to(customer_url(customer))
+      end
+    end
 
-    # context 'with invalid parameters' do
-    #   it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-    #     customer = Customer.create! valid_attributes
-    #     patch customer_url(customer), params: { customer: invalid_attributes }
-    #     expect(response).to have_http_status(:unprocessable_entity)
-    #   end
-    # end
+    context 'with invalid parameters' do
+      it "renders a response with 422 status (i.e. to display the 'edit' template)" do
+        customer = Customer.create! valid_attributes
+        patch customer_url(customer), params: { customer: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
   end
 
   describe 'DELETE /destroy' do
-    # before do
-    #   login
-    # end
+    before do
+      login
+    end
 
-    # it 'destroys the requested customer' do
-    #   customer = Customer.create! valid_attributes
-    #   expect do
-    #     delete customer_url(customer)
-    #   end.to change(Customer, :count).by(-1)
-    # end
+    it 'destroys the requested customer' do
+      customer = Customer.create! valid_attributes
+      expect do
+        delete customer_url(customer)
+      end.to change(Customer, :count).by(-1)
+    end
 
-    # it 'redirects to the customers list' do
-    #   customer = Customer.create! valid_attributes
-    #   delete customer_url(customer)
-    #   expect(response).to redirect_to(customers_url)
-    # end
+    it 'redirects to the customers list' do
+      customer = Customer.create! valid_attributes
+      delete customer_url(customer)
+      expect(response).to redirect_to(customers_url)
+    end
   end
 end
