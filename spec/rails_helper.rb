@@ -13,6 +13,8 @@ require 'support/factory_bot'
 require 'support/time_helpers'
 # Shoulda Matchers
 require 'support/shoulda_matchers'
+# Devise
+require 'support/devise'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

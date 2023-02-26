@@ -3,23 +3,43 @@
 require 'rails_helper'
 
 RSpec.describe CustomersController, type: :controller do
-  it 'responds to successfully' do
-    get :index
-    expect(response).to be_successful
+  context '#index' do
+    it 'responds to successfully' do
+      get :index
+      expect(response).to be_successful
+    end
+
+    it 'responds to :success' do
+      get :index
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'responds to :ok' do
+      get :index
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'responds a 200 status' do
+      get :index
+      expect(response).to have_http_status(200)
+    end
   end
 
-  it 'responds to :success' do
-    get :index
-    expect(response).to have_http_status(:success)
-  end
+  context '#show' do
+    it 'responds a 302 status when not authenticated' do
+      costumer = create(:customer)
+      get :show, params: { id: costumer.id }
+      expect(response).to have_http_status(302)
+    end
 
-  it 'responds to :ok' do
-    get :index
-    expect(response).to have_http_status(:ok)
-  end
+    it 'responds a 200 status when authenticated' do
+      # Auth
+      member = create(:member)
+      sign_in member
 
-  it 'responds a 200 status' do
-    get :index
-    expect(response).to have_http_status(200)
+      costumer = create(:customer)
+      get :show, params: { id: costumer.id }
+      expect(response).to have_http_status(200)
+    end
   end
 end
