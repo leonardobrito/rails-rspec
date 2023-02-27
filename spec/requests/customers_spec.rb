@@ -55,6 +55,12 @@ RSpec.describe '/customers', type: :request do
       login
     end
 
+    it 'validate schema json' do
+      customer = Customer.create! valid_attributes
+      get(customer_path(customer, params: { format: :json }))
+      expect(response).to match_json_schema(:customer)
+    end
+
     it 'renders a successful response' do
       customer = Customer.create! valid_attributes
       get customer_url(customer)

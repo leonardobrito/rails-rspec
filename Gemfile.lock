@@ -122,6 +122,9 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    json_matchers (0.11.1)
+      json_schema
+    json_schema (0.21.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -278,6 +281,7 @@ DEPENDENCIES
   httparty
   importmap-rails
   jbuilder
+  json_matchers
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.2)
   rails-controller-testing
